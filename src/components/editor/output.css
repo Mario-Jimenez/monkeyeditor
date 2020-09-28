@@ -1,0 +1,27 @@
+.footer {
+  position: fixed;
+  bottom: 0;
+  height: 130px;
+  width: 100%;
+  overflow: auto;
+  background-color: #3e2723;
+  color: #fafafa;
+}
+
+.output textarea {
+  outline: none;
+  padding-left: 60px !important;
+}
+
+.output pre {
+  padding-left: 60px !important;
+}
+
+.output span {
+  position: absolute;
+  left: 0px;
+  color: #ffeb3b;
+  text-align: right;
+  width: 40px;
+  font-weight: 100;
+}

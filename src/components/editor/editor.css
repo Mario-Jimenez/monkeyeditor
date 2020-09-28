@@ -1,0 +1,27 @@
+.outer {
+  position: fixed;
+  top: 60px;
+  bottom: 132px;
+  width: 100%;
+  overflow: auto;
+  background-color: transparent;
+  color: #263238;
+}
+
+.editor textarea {
+  outline: none;
+  padding-left: 60px !important;
+}
+
+.editor pre {
+  padding-left: 60px !important;
+}
+
+.editor span {
+  position: absolute;
+  left: 0px;
+  color: #e91e63;
+  text-align: right;
+  width: 40px;
+  font-weight: 100;
+}
