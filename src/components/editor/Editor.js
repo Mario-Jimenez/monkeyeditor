@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
+import { CompilerContext } from "../../contexts/Compiler";
 import SimpleEditor from "react-simple-code-editor";
 import "./editor.css";
 
@@ -8,30 +9,16 @@ const lineNumbers = (input) =>
     .map((line, i) => `<span>${i + 1}</span>${line}`)
     .join("\n");
 
-const code = `package main
-
-import (
-  "fmt"
-  "os"
-)
-
-func main() {
-  fmt.Println("Hello World!")
-  os.Exit(0)
-}
-
-`;
-
 function Editor(props) {
-  const [codeValue, setCodeValue] = useState(code);
+  const { program, updateProgram } = useContext(CompilerContext);
 
   return (
     <div className="outer">
       <SimpleEditor
         className="editor"
         placeholder="Type some code…"
-        value={codeValue}
-        onValueChange={(code) => setCodeValue(code)}
+        value={program}
+        onValueChange={(code) => updateProgram(code)}
         highlight={(code) => lineNumbers(code)}
         padding={10}
         style={{
