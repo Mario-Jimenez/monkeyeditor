@@ -1,7 +1,7 @@
 import instance from "./axios";
 
 const compile = (program) => {
-  return instance.post("compile", {
+  return instance.post("/compile", {
     program,
   });
 };
