@@ -25,3 +25,7 @@
   width: 40px;
   font-weight: 100;
 }
+
+.error-line {
+  background-color: #90a4ae;
+}

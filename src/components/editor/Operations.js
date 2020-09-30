@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Operations(props) {
-  const { updateProgram } = useContext(CompilerContext);
+  const { updateProgram, compileProgram } = useContext(CompilerContext);
 
   const classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
@@ -40,6 +40,10 @@ function Operations(props) {
         variant: "error",
       });
     };
+  };
+
+  const handleCompilation = () => {
+    compileProgram();
   };
 
   return (
@@ -67,9 +71,7 @@ function Operations(props) {
         color="secondary"
         aria-label="compile"
         className={classes.margin}
-        onClick={() => {
-          alert("compile");
-        }}
+        onClick={handleCompilation}
       >
         <PlayArrowRoundedIcon />
       </Fab>

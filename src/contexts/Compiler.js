@@ -1,33 +1,97 @@
 import React, { useState } from "react";
+import { useSnackbar } from "notistack";
+import { compile } from "../services/monkeycompiler";
 
 export const CompilerContext = React.createContext();
 
 function CompilerProvider({ children }) {
+  const { enqueueSnackbar } = useSnackbar();
+
   const [program, setProgram] = useState(() => {
-    return `package main
-
-import (
-  "fmt"
-  "os"
-)
-
-func main() {
-  fmt.Println("Hello World!")
-  os.Exit(0)
-}
+    return `let fibonacci = fn(x) {
+  if (x == 0) {
+      0
+  } else {
+      if (x == 1) {
+          1
+      } else {
+          fibonacci(x - 1) + fibonacci(x - 2);
+      }
+  }
+};
 
 `;
+  });
+
+  const [errorList, setErrorList] = useState(() => {
+    return "Welcome!";
+  });
+
+  const [errorLines, setErrorLines] = useState(() => {
+    return [];
   });
 
   const updateProgram = (newProgram) => {
     setProgram(newProgram);
   };
 
+  const compileProgram = async () => {
+    try {
+      const response = (await compile(program)).data;
+      const errors = response.errors.join("\n");
+      errors === ""
+        ? setErrorList("Compilation succeeded!")
+        : setErrorList(errors);
+      setErrorLines(response.lines);
+    } catch (err) {
+      // TODO: handle error
+      // https://www.intricatecloud.io/2020/03/how-to-handle-api-errors-in-your-web-app-using-axios/
+      if (err.response) {
+        // client received an error response (5xx, 4xx)
+        switch (err.response.status) {
+          case 400: // Bad request
+            enqueueSnackbar("Bad request", {
+              variant: "warning",
+            });
+            break;
+          case 404: // Not found
+            enqueueSnackbar("Invalid request", {
+              variant: "error",
+            });
+            break;
+          case 408: // Timeout
+            enqueueSnackbar("Request took too long, please try again", {
+              variant: "warning",
+            });
+            break;
+          case 500: // Internal Server Error
+            enqueueSnackbar("Something went wrong, please try again", {
+              variant: "error",
+            });
+            break;
+          default:
+            console.log(err.response);
+        }
+      } else if (err.request) {
+        // client never received a response, or request never left
+        enqueueSnackbar("Can't reach server", {
+          variant: "error",
+        });
+      } else {
+        // anything else
+        console.log(err);
+      }
+    }
+  };
+
   return (
     <CompilerContext.Provider
       value={{
         program,
+        errorList,
+        errorLines,
         updateProgram,
+        compileProgram,
       }}
     >
       {children}
