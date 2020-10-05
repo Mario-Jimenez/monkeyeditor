@@ -1,15 +1,19 @@
 import React, { useContext } from "react";
+import { highlight, languages } from "prismjs/components/prism-core";
 import { CompilerContext } from "../../contexts/Compiler";
 import SimpleEditor from "react-simple-code-editor";
 import "./editor.css";
 
-const lineNumbers = (input, lines) =>
-  input
+import "prismjs/components/prism-monkey";
+import "prismjs/themes/prism.css";
+
+const hightlightWithLineNumbers = (input, language, lines) =>
+  highlight(input, language)
     .split("\n")
     .map((line, i) => {
       return lines.includes(i + 1)
-        ? `<span class=error-line>${i + 1}</span>${line}`
-        : `<span>${i + 1}</span>${line}`;
+        ? `<span class='editorLineNumber error-line'>${i + 1}</span>${line}`
+        : `<span class='editorLineNumber'>${i + 1}</span>${line}`;
     })
     .join("\n");
 
@@ -20,10 +24,13 @@ function Editor(props) {
     <div className="outer">
       <SimpleEditor
         className="editor"
+        textareaId="codeArea"
         placeholder="Type some code…"
         value={program}
         onValueChange={(code) => updateProgram(code)}
-        highlight={(code) => lineNumbers(code, errorLines)}
+        highlight={(code) =>
+          hightlightWithLineNumbers(code, languages.monkey, errorLines)
+        }
         padding={10}
         style={{
           fontFamily: '"Fira code", "Fira Mono", monospace',
