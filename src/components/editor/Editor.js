@@ -7,7 +7,7 @@ import "./editor.css";
 import "prismjs/components/prism-monkey";
 import "prismjs/themes/prism.css";
 
-const hightlightWithLineNumbers = (input, language, lines) =>
+const highlightWithLineNumbers = (input, language, lines) =>
   highlight(input, language)
     .split("\n")
     .map((line, i) => {
@@ -29,7 +29,7 @@ function Editor(props) {
         value={program}
         onValueChange={(code) => updateProgram(code)}
         highlight={(code) =>
-          hightlightWithLineNumbers(code, languages.monkey, errorLines)
+          highlightWithLineNumbers(code, languages.monkey, errorLines)
         }
         padding={10}
         style={{

@@ -7,7 +7,7 @@ import "./output.css";
 import "prismjs/components/prism-markup";
 import "prismjs/themes/prism.css";
 
-const hightlightWithLineNumbers = (input, language) =>
+const highlightWithLineNumbers = (input, language) =>
   highlight(input, language)
     .split("\n")
     .map((line, i) => `<span class='outputLineNumber'>${i + 1}</span>${line}`)
@@ -24,7 +24,7 @@ const Output = () => {
         readOnly={true}
         value={errorList}
         onValueChange={() => errorList}
-        highlight={(code) => hightlightWithLineNumbers(code, languages.markup)}
+        highlight={(code) => highlightWithLineNumbers(code, languages.markup)}
         padding={10}
         style={{
           fontFamily: '"Fira code", "Fira Mono", monospace',
