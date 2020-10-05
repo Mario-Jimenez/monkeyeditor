@@ -8,7 +8,7 @@
   color: #fafafa;
 }
 
-.output textarea {
+.output #outputArea {
   outline: none;
   padding-left: 60px !important;
 }
@@ -17,7 +17,7 @@
   padding-left: 60px !important;
 }
 
-.output span {
+.output .outputLineNumber {
   position: absolute;
   left: 0px;
   color: #ffeb3b;
