@@ -23,6 +23,21 @@ function CompilerProvider({ children }) {
 `;
   });
 
+  const [parseTree, setParseTree] = useState(() => {
+    return [
+      {
+        name: "ProgramTree",
+        nodeSvgShape: {
+          shape: "circle",
+          shapeProps: {
+            r: 10,
+            fill: "#0091ea",
+          },
+        },
+      },
+    ];
+  });
+
   const [errorList, setErrorList] = useState(() => {
     return "Welcome!";
   });
@@ -43,6 +58,7 @@ function CompilerProvider({ children }) {
         ? setErrorList("Compilation succeeded!")
         : setErrorList(errors);
       setErrorLines(response.lines);
+      setParseTree(response.tree);
     } catch (err) {
       // TODO: handle error
       // https://www.intricatecloud.io/2020/03/how-to-handle-api-errors-in-your-web-app-using-axios/
@@ -88,6 +104,7 @@ function CompilerProvider({ children }) {
     <CompilerContext.Provider
       value={{
         program,
+        parseTree,
         errorList,
         errorLines,
         updateProgram,
