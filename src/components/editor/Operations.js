@@ -4,6 +4,8 @@ import { Box, Fab, makeStyles } from "@material-ui/core";
 import { useSnackbar } from "notistack";
 import FolderOpenRoundedIcon from "@material-ui/icons/FolderOpenRounded";
 import PlayArrowRoundedIcon from "@material-ui/icons/PlayArrowRounded";
+import AccountTreeRoundedIcon from "@material-ui/icons/AccountTreeRounded";
+import ParseTree from "../dialog/ParseTree";
 
 const useStyles = makeStyles((theme) => ({
   margin: {
@@ -16,6 +18,8 @@ const useStyles = makeStyles((theme) => ({
 
 function Operations(props) {
   const { updateProgram, compileProgram } = useContext(CompilerContext);
+
+  const [openParseTree, setOpenParseTree] = React.useState(false);
 
   const classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
@@ -44,6 +48,14 @@ function Operations(props) {
 
   const handleCompilation = () => {
     compileProgram();
+  };
+
+  const handleOpenParseTree = () => {
+    setOpenParseTree(true);
+  };
+
+  const handleCloseParseTree = () => {
+    setOpenParseTree(false);
   };
 
   return (
@@ -75,6 +87,16 @@ function Operations(props) {
       >
         <PlayArrowRoundedIcon />
       </Fab>
+      <Fab
+        size="small"
+        color="secondary"
+        aria-label="open parse tree dialog"
+        className={classes.margin}
+        onClick={handleOpenParseTree}
+      >
+        <AccountTreeRoundedIcon />
+      </Fab>
+      <ParseTree open={openParseTree} onClose={handleCloseParseTree} />
     </Box>
   );
 }
