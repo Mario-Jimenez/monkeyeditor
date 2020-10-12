@@ -24,18 +24,16 @@ function CompilerProvider({ children }) {
   });
 
   const [parseTree, setParseTree] = useState(() => {
-    return [
-      {
-        name: "ProgramTree",
-        nodeSvgShape: {
-          shape: "circle",
-          shapeProps: {
-            r: 10,
-            fill: "#0091ea",
-          },
+    return {
+      name: "ProgramTree",
+      nodeSvgShape: {
+        shape: "circle",
+        shapeProps: {
+          r: 10,
+          fill: "#0091ea",
         },
       },
-    ];
+    };
   });
 
   const [errorList, setErrorList] = useState(() => {
@@ -52,6 +50,7 @@ function CompilerProvider({ children }) {
 
   const compileProgram = async () => {
     try {
+      setErrorList("Compiling...");
       const response = (await compile(program)).data;
       const errors = response.errors.join("\n");
       errors === ""
