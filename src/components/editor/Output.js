@@ -4,7 +4,7 @@ import { CompilerContext } from "../../contexts/Compiler";
 import SimpleEditor from "react-simple-code-editor";
 import "./output.css";
 
-import "prismjs/components/prism-markup";
+import "prismjs/components/prism-vim";
 import "prismjs/themes/prism.css";
 
 const highlightWithLineNumbers = (input, language) =>
@@ -24,7 +24,7 @@ const Output = () => {
         readOnly={true}
         value={errorList}
         onValueChange={() => errorList}
-        highlight={(code) => highlightWithLineNumbers(code, languages.markup)}
+        highlight={(code) => highlightWithLineNumbers(code, languages.vim)}
         padding={10}
         style={{
           fontFamily: '"Fira code", "Fira Mono", monospace',
