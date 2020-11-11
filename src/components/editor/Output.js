@@ -1,14 +1,10 @@
 import React, { useContext } from "react";
-import { highlight, languages } from "prismjs/components/prism-core";
 import { CompilerContext } from "../../contexts/Compiler";
 import SimpleEditor from "react-simple-code-editor";
 import "./output.css";
 
-import "prismjs/components/prism-vim";
-import "prismjs/themes/prism.css";
-
-const highlightWithLineNumbers = (input, language) =>
-  highlight(input, language)
+const highlightWithLineNumbers = (input) =>
+  input
     .split("\n")
     .map((line, i) => `<span class='outputLineNumber'>${i + 1}</span>${line}`)
     .join("\n");
@@ -24,7 +20,7 @@ const Output = () => {
         readOnly={true}
         value={errorList}
         onValueChange={() => errorList}
-        highlight={(code) => highlightWithLineNumbers(code, languages.vim)}
+        highlight={(code) => highlightWithLineNumbers(code)}
         padding={10}
         style={{
           fontFamily: '"Fira code", "Fira Mono", monospace',
