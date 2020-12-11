@@ -6,4 +6,8 @@ const compile = (program) => {
   });
 };
 
-export { compile };
+const run = () => {
+  return instance.post("/run");
+};
+
+export { compile, run };

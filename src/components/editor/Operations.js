@@ -1,10 +1,12 @@
 import React, { useContext } from "react";
 import { CompilerContext } from "../../contexts/Compiler";
-import { Box, Fab, makeStyles } from "@material-ui/core";
+import { Box, Fab, makeStyles, withStyles } from "@material-ui/core";
 import { useSnackbar } from "notistack";
 import FolderOpenRoundedIcon from "@material-ui/icons/FolderOpenRounded";
+import SettingsRoundedIcon from "@material-ui/icons/SettingsRounded";
 import PlayArrowRoundedIcon from "@material-ui/icons/PlayArrowRounded";
 import AccountTreeRoundedIcon from "@material-ui/icons/AccountTreeRounded";
+import Tooltip from "@material-ui/core/Tooltip";
 import ParseTree from "../dialog/ParseTree";
 
 const useStyles = makeStyles((theme) => ({
@@ -16,8 +18,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const CustomTooltip = withStyles({
+  tooltip: {
+    fontSize: "0.8em",
+    color: "#ffffff",
+    backgroundColor: "#795548",
+  },
+})(Tooltip);
+
 function Operations(props) {
-  const { updateProgram, compileProgram } = useContext(CompilerContext);
+  const { updateProgram, compileProgram, runProgram } = useContext(
+    CompilerContext
+  );
 
   const [openParseTree, setOpenParseTree] = React.useState(false);
 
@@ -50,6 +62,10 @@ function Operations(props) {
     compileProgram();
   };
 
+  const handleRun = () => {
+    runProgram();
+  };
+
   const handleOpenParseTree = () => {
     setOpenParseTree(true);
   };
@@ -68,34 +84,51 @@ function Operations(props) {
         onChange={handleFileSelect}
       />
       <label htmlFor="icon-button-file">
+        <CustomTooltip title="Open" aria-label="open">
+          <Fab
+            size="small"
+            color="secondary"
+            aria-label="open file"
+            className={classes.margin}
+            component="span"
+          >
+            <FolderOpenRoundedIcon />
+          </Fab>
+        </CustomTooltip>
+      </label>
+      <CustomTooltip title="Compile" aria-label="compile">
         <Fab
           size="small"
           color="secondary"
-          aria-label="open file"
+          aria-label="compile"
           className={classes.margin}
-          component="span"
+          onClick={handleCompilation}
         >
-          <FolderOpenRoundedIcon />
+          <SettingsRoundedIcon />
         </Fab>
-      </label>
-      <Fab
-        size="small"
-        color="secondary"
-        aria-label="compile"
-        className={classes.margin}
-        onClick={handleCompilation}
-      >
-        <PlayArrowRoundedIcon />
-      </Fab>
-      <Fab
-        size="small"
-        color="secondary"
-        aria-label="open parse tree dialog"
-        className={classes.margin}
-        onClick={handleOpenParseTree}
-      >
-        <AccountTreeRoundedIcon />
-      </Fab>
+      </CustomTooltip>
+      <CustomTooltip title="Run" aria-label="run">
+        <Fab
+          size="small"
+          color="secondary"
+          aria-label="run"
+          className={classes.margin}
+          onClick={handleRun}
+        >
+          <PlayArrowRoundedIcon />
+        </Fab>
+      </CustomTooltip>
+      <CustomTooltip title="Tree" aria-label="tree">
+        <Fab
+          size="small"
+          color="secondary"
+          aria-label="open parse tree dialog"
+          className={classes.margin}
+          onClick={handleOpenParseTree}
+        >
+          <AccountTreeRoundedIcon />
+        </Fab>
+      </CustomTooltip>
       <ParseTree open={openParseTree} onClose={handleCloseParseTree} />
     </Box>
   );
